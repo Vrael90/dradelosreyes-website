@@ -6,6 +6,13 @@ if (menuToggle) {
     menuToggle.addEventListener('click', () => {
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     });
+
+    // Cerrar menú al hacer click en un link
+    document.querySelectorAll('.menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            menu.style.display = 'none';
+        });
+    });
 }
 
 // Smooth scroll para los links del menú
@@ -24,12 +31,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Efecto fade-in al cargar la página
 window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-        document.body.style.transition = 'opacity 0.5s ease-in';
-    }, 100);
+    document.body.style.opacity = '1';
 });
 
-// Log para verificar que el script está funcionando
-console.log('Script cargado correctamente');
+// Animación de scroll para elementos
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.card-especialidad, .proceso-step, .info-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+});
+
+console.log('Sitio web de Dra. Nerea de los Reyes cargado correctamente');
