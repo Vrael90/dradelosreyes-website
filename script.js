@@ -13,6 +13,13 @@ if (menuToggle) {
             menu.style.display = 'none';
         });
     });
+
+    // Resetear el menú al cambiar el tamaño de pantalla
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            menu.style.display = '';
+        }
+    });
 }
 
 // Smooth scroll para los links del menú
