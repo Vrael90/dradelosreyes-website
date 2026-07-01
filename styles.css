@@ -67,7 +67,7 @@ a:hover {
    =========================== */
 .navbar {
     background-color: var(--blanco);
-    padding: 20px 0;
+    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -81,24 +81,16 @@ a:hover {
     align-items: center;
 }
 
-.logo h1 {
-    font-size: 22px;
-    color: var(--marron-oscuro);
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.subtitle {
-    font-size: 12px;
-    color: var(--gris-oscuro);
-    font-weight: 300;
-    letter-spacing: 1px;
+.logo img {
+    height: 110px;
+    width: auto;
+    display: block;
 }
 
 .menu {
     display: flex;
     list-style: none;
-    gap: 40px;
+    gap: 30px;
 }
 
 .menu a {
@@ -211,6 +203,13 @@ a:hover {
     transform: translateY(-2px);
 }
 
+.btn-secondary svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: -2px;
+    margin-right: 6px;
+}
+
 /* ===========================
    SOBRE MI
    =========================== */
@@ -307,16 +306,19 @@ a:hover {
     border-color: var(--nude);
 }
 
-.card-especialidad .icon {
-    font-size: 48px;
-    margin-bottom: 25px;
-    display: block;
+.card-especialidad h3 {
+    font-size: 26px;
+    margin-bottom: 0;
+    color: var(--marron-oscuro);
 }
 
-.card-especialidad h3 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: var(--marron-oscuro);
+.card-especialidad h3::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background-color: #5c4433;
+    margin: 14px auto 22px;
 }
 
 .services-list {
@@ -359,7 +361,8 @@ a:hover {
 
 .proceso-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 360px));
+    justify-content: center;
     gap: 30px;
     margin-top: 60px;
 }
@@ -424,6 +427,26 @@ a:hover {
     gap: 40px;
     margin-top: 60px;
     margin-bottom: 60px;
+}
+
+.tel-desktop {
+    display: inline;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--marron);
+}
+
+.tel-mobile {
+    display: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--marron);
+    text-decoration: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .tel-desktop { display: none; }
+    .tel-mobile { display: inline; }
 }
 
 .info-item {
@@ -499,6 +522,191 @@ a:hover {
 }
 
 /* ===========================
+   MODAL Y FORMULARIO
+   =========================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(92, 68, 51, 0.35);
+    backdrop-filter: blur(2px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background: var(--blanco);
+    max-width: 480px;
+    width: 100%;
+    padding: 48px 44px;
+    position: relative;
+    border: 1px solid var(--nude-light);
+    transform: translateY(16px);
+    transition: transform 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-overlay.open .modal-container {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gris-oscuro);
+    padding: 6px;
+    line-height: 0;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: var(--marron-oscuro);
+}
+
+.modal-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-container h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: var(--texto-claro);
+    margin-bottom: 28px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--texto);
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+
+.required-mark {
+    color: var(--marron);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--nude-dark);
+    background: var(--fondo);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--texto);
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--marron-claro);
+    background: var(--blanco);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 88px;
+    line-height: 1.6;
+}
+
+.form-group-check {
+    margin-top: 4px;
+}
+
+.check-label {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--texto-claro);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.form-group input[type="checkbox"] {
+    width: 15px;
+    min-width: 15px;
+    height: 15px;
+    padding: 0;
+    border: 1px solid var(--nude-dark);
+    border-radius: 2px;
+    accent-color: var(--marron);
+    background: var(--fondo);
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.privacy-link {
+    color: var(--marron);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.btn-form {
+    width: 100%;
+    margin-top: 6px;
+    padding: 14px;
+}
+
+.btn-form:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.form-success {
+    text-align: center;
+    padding: 20px 0 10px;
+}
+
+.form-success svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+    margin: 0 auto 16px;
+}
+
+.form-success p {
+    font-size: 17px;
+    color: var(--marron-oscuro);
+    line-height: 1.7;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* ===========================
    RESPONSIVE
    =========================== */
 @media (max-width: 768px) {
@@ -555,8 +763,8 @@ a:hover {
         grid-template-columns: 1fr;
     }
 
-    .logo h1 {
-        font-size: 18px;
+    .logo img {
+        height: 90px;
     }
 
     .menu {
@@ -569,16 +777,20 @@ a:hover {
 }
 
 @media (max-width: 480px) {
+    .modal-container {
+        padding: 40px 24px;
+    }
+
+    .modal-container h2 {
+        font-size: 24px;
+    }
+
     .navbar {
         padding: 15px 0;
     }
 
-    .logo h1 {
-        font-size: 16px;
-    }
-
-    .subtitle {
-        font-size: 11px;
+    .logo img {
+        height: 75px;
     }
 
     .hero-content h2 {

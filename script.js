@@ -7,14 +7,12 @@ if (menuToggle) {
         menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     });
 
-    // Cerrar menú al hacer click en un link
     document.querySelectorAll('.menu a').forEach(link => {
         link.addEventListener('click', () => {
             menu.style.display = 'none';
         });
     });
 
-    // Resetear el menú al cambiar el tamaño de pantalla
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             menu.style.display = '';
@@ -22,16 +20,13 @@ if (menuToggle) {
     });
 }
 
-// Smooth scroll para los links del menú
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Smooth scroll (excluye el botón del modal)
+document.querySelectorAll('a[href^="#"]:not(#btn-agendar)').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
@@ -62,5 +57,85 @@ document.querySelectorAll('.card-especialidad, .proceso-step, .info-item').forEa
     el.style.transition = 'all 0.6s ease';
     observer.observe(el);
 });
+
+// Modal agendar cita
+const modalOverlay = document.getElementById('modal-cita');
+const btnAgendar = document.getElementById('btn-agendar');
+const btnCerrar = document.querySelector('.modal-close');
+const formCita = document.getElementById('form-cita');
+const formSuccess = document.getElementById('form-success');
+
+function abrirModal() {
+    modalOverlay.classList.add('open');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal() {
+    modalOverlay.classList.remove('open');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+if (btnAgendar) {
+    btnAgendar.addEventListener('click', (e) => {
+        e.preventDefault();
+        abrirModal();
+    });
+}
+
+const btnEmailModal = document.getElementById('btn-email-modal');
+if (btnEmailModal) {
+    btnEmailModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        abrirModal();
+    });
+}
+
+if (btnCerrar) {
+    btnCerrar.addEventListener('click', cerrarModal);
+}
+
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) cerrarModal();
+    });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('open')) {
+        cerrarModal();
+    }
+});
+
+if (formCita) {
+    formCita.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = formCita.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+
+        try {
+            const res = await fetch(formCita.action, {
+                method: 'POST',
+                body: new FormData(formCita),
+                headers: { Accept: 'application/json' }
+            });
+
+            if (res.ok) {
+                formCita.hidden = true;
+                formSuccess.removeAttribute('hidden');
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Enviar solicitud';
+                alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+            }
+        } catch {
+            btn.disabled = false;
+            btn.textContent = 'Enviar solicitud';
+            alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+        }
+    });
+}
 
 console.log('Sitio web de Dra. Nerea de los Reyes cargado correctamente');
