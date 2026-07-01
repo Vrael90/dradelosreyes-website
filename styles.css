@@ -745,21 +745,41 @@ a:hover {
    RESPONSIVE
    =========================== */
 @media (max-width: 768px) {
-    .menu {
-        display: none;
+    .nav-container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
     }
 
-    .nav-container {
-        position: relative;
-        justify-content: center;
+    .logo {
+        grid-column: 2;
     }
 
     .menu-toggle {
         display: block;
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        grid-column: 3;
+        justify-self: end;
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        grid-column: 1 / -1;
+        gap: 0;
+        padding: 12px 0 16px;
+        border-top: 1px solid var(--nude-light);
+        margin-top: 10px;
+    }
+
+    .menu li a {
+        display: block;
+        padding: 12px 4px;
+        font-size: 15px;
+        border-bottom: 1px solid var(--nude-light);
+    }
+
+    .menu li:last-child a {
+        border-bottom: none;
     }
 
     .hero-content h2 {
@@ -809,10 +829,6 @@ a:hover {
 
     .logo img {
         height: 65px;
-    }
-
-    .menu {
-        gap: 20px;
     }
 
     .hero-content h2 {
