@@ -455,11 +455,28 @@ a:hover {
     background-color: var(--blanco);
     border: 1px solid var(--nude-light);
     transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
 }
 
 .info-item:hover {
     border-color: var(--marron-claro);
     box-shadow: 0 10px 25px rgba(184, 168, 152, 0.1);
+}
+
+/* El enlace de cada bloque se expande para cubrir todo el card */
+.info-item a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+/* Teléfono en escritorio: sin acción, sin pointer */
+@media (hover: hover) and (pointer: fine) {
+    .info-item:has(.tel-desktop) {
+        cursor: default;
+    }
 }
 
 .info-icon {
@@ -652,25 +669,43 @@ a:hover {
     color: var(--texto-claro);
     line-height: 1.6;
     margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .form-group input[type="checkbox"] {
-    width: 15px;
-    min-width: 15px;
-    height: 15px;
+    -webkit-appearance: checkbox;
+    appearance: auto;
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
     padding: 0;
-    border: 1px solid var(--nude-dark);
-    border-radius: 2px;
+    border: none;
+    border-radius: 0;
+    background: unset;
     accent-color: var(--marron);
-    background: var(--fondo);
     cursor: pointer;
     margin-top: 2px;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    flex-shrink: 0;
 }
 
 .privacy-link {
     color: var(--marron);
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+.form-error {
+    font-size: 12px;
+    color: var(--marron-oscuro);
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--nude-light);
+    border-left: 2px solid var(--marron);
 }
 
 .btn-form {
@@ -714,8 +749,17 @@ a:hover {
         display: none;
     }
 
+    .nav-container {
+        position: relative;
+        justify-content: center;
+    }
+
     .menu-toggle {
         display: block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .hero-content h2 {
@@ -764,7 +808,7 @@ a:hover {
     }
 
     .logo img {
-        height: 90px;
+        height: 65px;
     }
 
     .menu {
@@ -790,7 +834,7 @@ a:hover {
     }
 
     .logo img {
-        height: 75px;
+        height: 65px;
     }
 
     .hero-content h2 {

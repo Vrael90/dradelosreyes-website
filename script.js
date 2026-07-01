@@ -109,16 +109,38 @@ document.addEventListener('keydown', (e) => {
 });
 
 if (formCita) {
+    // Validación del checkbox de privacidad
+    const checkboxPrivacidad = document.getElementById('privacidad');
+    const errorPrivacidad = document.getElementById('privacidad-error');
+
+    if (checkboxPrivacidad && errorPrivacidad) {
+        checkboxPrivacidad.addEventListener('change', () => {
+            if (checkboxPrivacidad.checked) errorPrivacidad.hidden = true;
+        });
+    }
+
     formCita.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Bloquear si el checkbox no está marcado
+        if (checkboxPrivacidad && !checkboxPrivacidad.checked) {
+            if (errorPrivacidad) errorPrivacidad.hidden = false;
+            checkboxPrivacidad.focus();
+            return;
+        }
+
+        // — Lógica de envío original, sin cambios —
         const btn = formCita.querySelector('button[type="submit"]');
         btn.disabled = true;
         btn.textContent = 'Enviando...';
 
+        const formData = new FormData(formCita);
+        formData.delete('privacidad'); // el campo interno no se envía a Formspree
+
         try {
             const res = await fetch(formCita.action, {
                 method: 'POST',
-                body: new FormData(formCita),
+                body: formData,
                 headers: { Accept: 'application/json' }
             });
 
