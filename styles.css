@@ -67,7 +67,7 @@ a:hover {
    =========================== */
 .navbar {
     background-color: var(--blanco);
-    padding: 12px 0;
+    padding: 8px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -82,7 +82,7 @@ a:hover {
 }
 
 .logo img {
-    height: 110px;
+    height: 140px;
     width: auto;
     display: block;
 }
@@ -828,7 +828,7 @@ a:hover {
     }
 
     .logo img {
-        height: 65px;
+        height: 110px;
     }
 
     .hero-content h2 {
@@ -846,11 +846,11 @@ a:hover {
     }
 
     .navbar {
-        padding: 15px 0;
+        padding: 10px 0;
     }
 
     .logo img {
-        height: 65px;
+        height: 90px;
     }
 
     .hero-content h2 {
