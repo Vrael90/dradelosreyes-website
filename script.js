@@ -3,13 +3,19 @@ const menuToggle = document.querySelector('.menu-toggle');
 const menu = document.querySelector('.menu');
 
 if (menuToggle) {
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menú');
+
     menuToggle.addEventListener('click', () => {
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        const abierto = menu.style.display === 'flex';
+        menu.style.display = abierto ? 'none' : 'flex';
+        menuToggle.setAttribute('aria-expanded', String(!abierto));
     });
 
     document.querySelectorAll('.menu a').forEach(link => {
         link.addEventListener('click', () => {
             menu.style.display = 'none';
+            menuToggle.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -20,20 +26,17 @@ if (menuToggle) {
     });
 }
 
-// Smooth scroll (excluye el botón del modal)
-document.querySelectorAll('a[href^="#"]:not(#btn-agendar)').forEach(anchor => {
+// Smooth scroll (excluye los botones que abren el modal)
+document.querySelectorAll('a[href^="#"]:not(#btn-agendar):not(#btn-email-modal)').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return; // enlaces sin destino: no hacer nada
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
-});
-
-// Efecto fade-in al cargar la página
-window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
 });
 
 // Animación de scroll para elementos
@@ -160,4 +163,3 @@ if (formCita) {
     });
 }
 
-console.log('Sitio web de Dra. Nerea de los Reyes cargado correctamente');

@@ -27,6 +27,24 @@
 
 html {
     scroll-behavior: smooth;
+    /* Compensa la altura del navbar sticky al navegar por anclas */
+    scroll-padding-top: 115px;
+}
+
+@media (max-width: 768px) {
+    html { scroll-padding-top: 95px; }
+}
+
+@media (max-width: 480px) {
+    html { scroll-padding-top: 85px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }
 
 body {
@@ -82,7 +100,7 @@ a:hover {
 }
 
 .logo img {
-    height: 140px;
+    height: 85px;
     width: auto;
     display: block;
 }
@@ -141,11 +159,22 @@ a:hover {
     border-bottom: 1px solid var(--nude-dark);
 }
 
-.hero-content h2 {
+.hero-eyebrow {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--marron);
+    margin-bottom: 18px;
+    font-weight: 400;
+}
+
+.hero-content h1 {
     font-size: 56px;
     margin-bottom: 25px;
     font-weight: 600;
     letter-spacing: -1px;
+    color: var(--marron-oscuro);
+    font-family: 'Playfair Display', serif;
 }
 
 .hero-content p {
@@ -175,8 +204,9 @@ a:hover {
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     display: inline-block;
 }
 
@@ -338,10 +368,10 @@ a:hover {
 }
 
 .services-list li::before {
-    content: "✓ ";
-    color: var(--marron);
-    font-weight: 600;
-    margin-right: 8px;
+    content: "—";
+    color: var(--marron-claro);
+    font-weight: 300;
+    margin-right: 10px;
 }
 
 /* ===========================
@@ -536,6 +566,16 @@ a:hover {
     font-size: 12px;
     opacity: 0.8;
     margin-top: 10px;
+}
+
+.footer-link {
+    color: var(--blanco);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.footer-link:hover {
+    color: var(--nude);
 }
 
 /* ===========================
@@ -782,7 +822,7 @@ a:hover {
         border-bottom: none;
     }
 
-    .hero-content h2 {
+    .hero-content h1 {
         font-size: 36px;
     }
 
@@ -828,10 +868,10 @@ a:hover {
     }
 
     .logo img {
-        height: 110px;
+        height: 70px;
     }
 
-    .hero-content h2 {
+    .hero-content h1 {
         margin-bottom: 15px;
     }
 }
@@ -850,10 +890,10 @@ a:hover {
     }
 
     .logo img {
-        height: 90px;
+        height: 60px;
     }
 
-    .hero-content h2 {
+    .hero-content h1 {
         font-size: 28px;
         margin-bottom: 15px;
     }
