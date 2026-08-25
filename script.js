@@ -54,7 +54,7 @@ const observer = new IntersectionObserver(function(entries) {
     });
 }, observerOptions);
 
-document.querySelectorAll('.card-especialidad, .proceso-step, .info-item').forEach(el => {
+document.querySelectorAll('.card-especialidad, .proceso-step, .info-item, .faq-item').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'all 0.6s ease';
@@ -68,16 +68,44 @@ const btnCerrar = document.querySelector('.modal-close');
 const formCita = document.getElementById('form-cita');
 const formSuccess = document.getElementById('form-success');
 
+let ultimoFoco = null;
+
 function abrirModal() {
+    ultimoFoco = document.activeElement;
     modalOverlay.classList.add('open');
     modalOverlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    // Trasladar el foco al primer campo del formulario
+    const primerCampo = modalOverlay.querySelector('input, textarea, button');
+    if (primerCampo) primerCampo.focus();
 }
 
 function cerrarModal() {
     modalOverlay.classList.remove('open');
     modalOverlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    // Devolver el foco al elemento que abrió el modal
+    if (ultimoFoco && typeof ultimoFoco.focus === 'function') ultimoFoco.focus();
+}
+
+// Focus trap: mantener la tabulación dentro del modal mientras está abierto
+if (modalOverlay) {
+    modalOverlay.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab' || !modalOverlay.classList.contains('open')) return;
+        const focusables = modalOverlay.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled])'
+        );
+        if (!focusables.length) return;
+        const primero = focusables[0];
+        const ultimo = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === primero) {
+            e.preventDefault();
+            ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+            e.preventDefault();
+            primero.focus();
+        }
+    });
 }
 
 if (btnAgendar) {
